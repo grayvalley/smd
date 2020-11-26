@@ -2,11 +2,11 @@
 #define SMDCLIENT_HH
 #include <string>
 #include <functional>
-#include <laniakea/virgo/epolling.hh>
-#include <laniakea/virgo/fragment.hh>
-#include "SMD.hh"
-#include "SMDParser.hh"
-#include "RFC6455.hh"
+#include <grayvalley/core/epolling.hh>
+#include <grayvalley/core/fragment.hh>
+#include <grayvalley/smd/SMD.hh>
+#include <grayvalley/smd/SMDParser.hh>
+#include <grayvalley/smd/RFC6455.hh>
 
 namespace RFC6455{
     class Frame;

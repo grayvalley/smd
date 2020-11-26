@@ -1,4 +1,4 @@
-#include <laniakea/fornax/SMDParser.hh>
+#include <grayvalley/smd/SMDParser.hh>
 #include <iostream>
 namespace SMD {
     SMDParser::SMDParser(SMD::SMDListener* p_listener) {

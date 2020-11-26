@@ -1,5 +1,4 @@
-#include <laniakea/fornax/SMD.hh>
-#include <laniakea/virgo/enums.hh>
+#include <grayvalley/smd/SMD.hh>
 
 namespace SMD {
     std::map<std::string, SMD::MESSAGE_TYPE> smd_enum_map = {
