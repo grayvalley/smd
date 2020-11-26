@@ -1,10 +1,10 @@
-#ifndef SMD_HH
-#define SMD_HH
+#ifndef _SMD_HH
+#define _SMD_HH
 
 #include <nlohmann/json.hpp>
-#include <laniakea/virgo/fragment.hh>
-#include <laniakea/virgo/macros.hh>
-#include <laniakea/virgo/enums.hh>
+#include <grayvalley/core/fragment.hh>
+#include <grayvalley/core/macros.hh>
+#include <grayvalley/core/enums.hh>
 
 
 namespace SMD {

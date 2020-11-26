@@ -1,9 +1,7 @@
 #include <system_error>
-
-#include <laniakea/virgo/epolling.hh>
-
-#include <laniakea/fornax/SMDClient.hh>
-#include <laniakea/fornax/RFC6455.hh>
+#include <grayvalley/core/epolling.hh>
+#include <grayvalley/smd/SMDClient.hh>
+#include <grayvalley/smd/RFC6455.hh>
 
 
 namespace SMD {

@@ -1,7 +1,7 @@
-#ifndef SMDPARSER_HH
-#define SMDPARSER_HH
-#include <laniakea/fornax/SMD.hh>
-#include <laniakea/fornax/SMDListener.hh>
+#ifndef _SMDPARSER_HH
+#define _SMDPARSER_HH
+#include <grayvalley/smd/SMD.hh>
+#include <grayvalley/smd/SMDListener.hh>
 namespace SMD {
     class SMDParser
     {
@@ -22,5 +22,5 @@ namespace SMD {
         void parse(char* buffer, size_t len);
     };
 }
-#endif //SMDPARSER_HH
+#endif //_SMDPARSER_HH
 
