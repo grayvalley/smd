@@ -1,5 +1,5 @@
-#ifndef RFC6455_HH
-#define RFC6455_HH
+#ifndef _RFC6455_HH
+#define _RFC6455_HH
 #include <string>
 #include <random>
 #include <algorithm>
