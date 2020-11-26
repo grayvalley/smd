@@ -1,6 +1,6 @@
 project(smd)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 include_directories(inc)
 include_directories(src)
@@ -18,7 +18,7 @@ set(SOURCE_FILES
         src/SMD.cc
         src/SMDClient.cc
         src/SMDParser.cc
-         )
+        ../core/inc/grayvalley/core/events.hh)
 
 add_library(smd STATIC ${HEADER_FILES} ${SOURCE_FILES})
 set_target_properties(smd PROPERTIES LINKER_LANGUAGE CXX)

@@ -1,13 +1,11 @@
 #ifndef _SMD_HH
 #define _SMD_HH
-
 #include <nlohmann/json.hpp>
 #include <grayvalley/core/fragment.hh>
 #include <grayvalley/core/macros.hh>
 #include <grayvalley/core/enums.hh>
 
-
-namespace SMD {
+namespace QVT::SMD {
     enum MESSAGE_TYPE: int {
         MESSAGE_TYPE_EMPTY,
         MESSAGE_TYPE_INVALID,
@@ -18,7 +16,7 @@ namespace SMD {
     };
 }
 
-namespace SMD {
+namespace QVT::SMD {
     class Message {
     protected:
         nlohmann::json m_body;
@@ -33,7 +31,7 @@ namespace SMD {
     };
 }
 
-namespace SMD {
+namespace QVT::SMD {
     class InboundMessage {
     public:
         InboundMessage() = default;
@@ -43,7 +41,7 @@ namespace SMD {
     };
 }
 
-namespace SMD {
+namespace QVT::SMD {
     class OrderAdd: public InboundMessage {
         int OrderId;
         int Price;
@@ -58,7 +56,7 @@ namespace SMD {
     };
 }
 
-namespace SMD {
+namespace QVT::SMD {
     class OrderModify: public InboundMessage {
         int OrderId;
         int Price;
@@ -73,7 +71,7 @@ namespace SMD {
     };
 }
 
-namespace SMD {
+namespace QVT::SMD {
     class OrderRemove: public InboundMessage {
         int OrderId;
     public:
@@ -85,7 +83,7 @@ namespace SMD {
     };
 }
 
-namespace SMD {
+namespace QVT::SMD {
     class OrderExecuted: public InboundMessage {
         int OrderId;
         int Price;
