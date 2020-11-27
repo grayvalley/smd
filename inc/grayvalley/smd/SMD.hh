@@ -5,7 +5,7 @@
 #include <grayvalley/core/macros.hh>
 #include <grayvalley/core/enums.hh>
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     enum MESSAGE_TYPE: int {
         MESSAGE_TYPE_EMPTY,
         MESSAGE_TYPE_INVALID,
@@ -16,7 +16,7 @@ namespace QVT::SMD {
     };
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     class Message {
     protected:
         nlohmann::json m_body;
@@ -31,7 +31,7 @@ namespace QVT::SMD {
     };
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     class InboundMessage {
     public:
         InboundMessage() = default;
@@ -41,7 +41,7 @@ namespace QVT::SMD {
     };
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     class OrderAdd: public InboundMessage {
         int OrderId;
         int Price;
@@ -56,7 +56,7 @@ namespace QVT::SMD {
     };
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     class OrderModify: public InboundMessage {
         int OrderId;
         int Price;
@@ -71,7 +71,7 @@ namespace QVT::SMD {
     };
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     class OrderRemove: public InboundMessage {
         int OrderId;
     public:
@@ -83,7 +83,7 @@ namespace QVT::SMD {
     };
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     class OrderExecuted: public InboundMessage {
         int OrderId;
         int Price;

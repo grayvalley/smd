@@ -1,6 +1,6 @@
 #include <grayvalley/smd/SMD.hh>
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     std::map<std::string, SMD::MESSAGE_TYPE> smd_enum_map = {
             {"A", SMD::MESSAGE_TYPE_ORDER_ADD},
             {"E", SMD::MESSAGE_TYPE_ORDER_EXECUTED},
@@ -10,14 +10,14 @@ namespace QVT::SMD {
     };
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     std::map<std::string, SIDE> map_side_char_enum = {
             {"B", SIDE::B},
             {"S", SIDE::S}
     };
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     SMD::MESSAGE_TYPE Message::messageType() {
         if(m_body.empty()){
             return MESSAGE_TYPE_EMPTY;
@@ -31,20 +31,20 @@ namespace QVT::SMD {
     }
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     void Message::from(char* buffer, size_t len) {
         m_body = nlohmann::json::parse(buffer, buffer + len);
     }
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     template <typename T>
     T Message::get(std::string key) {
         return m_body[key].get<T>();
     }
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     void OrderAdd::get(Message* message) {
         OrderId  = message->get<int>("order-id");
         Price    = message->get<int>("price");
@@ -54,7 +54,7 @@ namespace QVT::SMD {
     }
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     void OrderModify::get(Message* message) {
         OrderId  = message->get<int>("order-id");
         Price    = message->get<int>("price");
@@ -64,13 +64,13 @@ namespace QVT::SMD {
     }
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     void OrderRemove::get(Message* message) {
         OrderId  = message->get<int>("order-id");
     }
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     void OrderExecuted::get(Message* message) {
         OrderId  = message->get<int>("order-id");
         Price    = message->get<int>("price");
@@ -78,7 +78,7 @@ namespace QVT::SMD {
     }
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     std::ostream &operator<<(std::ostream& s, const OrderAdd& instance) {
         s << " --- [OrderAdd] ---" << std::endl;
         s << "OrderId: " << instance.OrderId << std::endl;
@@ -88,7 +88,7 @@ namespace QVT::SMD {
     }
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     std::ostream &operator<<(std::ostream& s, const OrderModify& instance) {
         s << " --- [OrderModify] ---" << std::endl;
         s << "OrderId: " << instance.OrderId << std::endl;
@@ -98,7 +98,7 @@ namespace QVT::SMD {
     }
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     std::ostream &operator<<(std::ostream& s, const OrderRemove& instance) {
         s << " --- [OrderRemove] ---" << std::endl;
         s << "OrderId: " << instance.OrderId << std::endl;
@@ -106,7 +106,7 @@ namespace QVT::SMD {
     }
 }
 
-namespace QVT::SMD {
+namespace GVT::SMD {
     std::ostream &operator<<(std::ostream& s, const OrderExecuted& instance) {
         s << " --- [OrderExecuted] ---" << std::endl;
         s << "OrderId: " << instance.OrderId << std::endl;
