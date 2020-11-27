@@ -10,15 +10,14 @@ set(HEADER_FILES
         inc/grayvalley/smd/SMDClient.hh
         inc/grayvalley/smd/SMDListener.hh
         inc/grayvalley/smd/SMDParser.hh
-        inc/grayvalley/smd/RFC6455.hh
-        inc/grayvalley/smd/sha1/sha1.hh
+
         )
 
 set(SOURCE_FILES
         src/SMD.cc
         src/SMDClient.cc
         src/SMDParser.cc
-        ../core/inc/grayvalley/core/events.hh)
+        )
 
 add_library(smd STATIC ${HEADER_FILES} ${SOURCE_FILES})
 set_target_properties(smd PROPERTIES LINKER_LANGUAGE CXX)

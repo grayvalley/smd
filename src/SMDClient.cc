@@ -1,7 +1,7 @@
 #include <system_error>
 #include <grayvalley/core/epolling.hh>
 #include <grayvalley/smd/SMDClient.hh>
-#include <grayvalley/smd/RFC6455.hh>
+#include <grayvalley/core/RFC6455.hh>
 
 namespace QVT {
     namespace SMD {
