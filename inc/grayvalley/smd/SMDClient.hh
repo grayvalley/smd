@@ -6,7 +6,7 @@
 #include <grayvalley/core/fragment.hh>
 #include <grayvalley/smd/SMD.hh>
 #include <grayvalley/smd/SMDParser.hh>
-#include <grayvalley/smd/RFC6455.hh>
+#include <grayvalley/core/RFC6455.hh>
 
 namespace RFC6455{
     class Frame;
