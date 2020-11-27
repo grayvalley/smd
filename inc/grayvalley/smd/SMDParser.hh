@@ -2,7 +2,7 @@
 #define _SMDPARSER_HH
 #include <grayvalley/smd/SMD.hh>
 #include <grayvalley/smd/SMDListener.hh>
-namespace QVT {
+namespace GVT {
     namespace SMD {
         class SMDParser
         {

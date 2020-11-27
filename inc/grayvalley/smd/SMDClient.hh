@@ -12,7 +12,7 @@ namespace RFC6455{
     class Frame;
 }
 
-namespace QVT {
+namespace GVT {
     namespace SMD {
         class SMDClient : public Epollable {
         private:

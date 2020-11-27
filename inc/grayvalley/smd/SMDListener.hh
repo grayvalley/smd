@@ -1,7 +1,7 @@
 #ifndef _SMDLISTENER_HH
 #define _SMDLISTENER_HH
 #include <grayvalley/smd/SMD.hh>
-namespace QVT {
+namespace GVT {
     namespace SMD {
         class SMDListener
         {
