@@ -10,7 +10,7 @@ namespace GVT::SMD {
         MESSAGE_TYPE_EMPTY,
         MESSAGE_TYPE_INVALID,
         MESSAGE_TYPE_ORDER_ADD,
-        MESSAGE_TYPE_ORDER_EXECUTED,
+        MESSAGE_TYPE_TRADE,
         MESSAGE_TYPE_ORDER_REMOVE,
         MESSAGE_TYPE_ORDER_MODIFY
     };
@@ -84,17 +84,16 @@ namespace GVT::SMD {
 }
 
 namespace GVT::SMD {
-    class OrderExecuted: public InboundMessage {
+    class Trade: public InboundMessage {
         int OrderId;
         int Price;
         int Quantity;
     public:
-        OrderExecuted() = default;
-        PREVENT_COPY(OrderExecuted);
+        Trade() = default;
+        PREVENT_COPY(Trade);
     public:
         void get(Message* message) override;
-        friend std::ostream &operator<<(std::ostream& s, const OrderExecuted& instance);
+        friend std::ostream &operator<<(std::ostream& s, const Trade& instance);
     };
 }
-
 #endif //SMD_HH

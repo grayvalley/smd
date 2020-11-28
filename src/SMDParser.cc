@@ -8,7 +8,7 @@ namespace GVT::SMD {
         m_p_orderAdd      = new OrderAdd();
         m_p_orderRemove   = new OrderRemove();
         m_p_orderModify   = new OrderModify();
-        m_p_orderExecuted = new OrderExecuted();
+        m_p_Trade         = new Trade();
     }
 }
 
@@ -17,7 +17,7 @@ namespace GVT::SMD {
         delete m_p_orderAdd;
         delete m_p_orderRemove;
         delete m_p_orderModify;
-        delete m_p_orderExecuted;
+        delete m_p_Trade;
         delete m_p_listener;
     }
 }
@@ -39,9 +39,9 @@ namespace GVT::SMD {
                 m_p_listener->onOrderAdd(m_p_orderAdd);
                 break;
             }
-            case MESSAGE_TYPE_ORDER_EXECUTED: {
-                m_p_orderExecuted->get(m_p_message);
-                m_p_listener->onOrderExecuted(m_p_orderExecuted);
+            case MESSAGE_TYPE_TRADE: {
+                m_p_Trade->get(m_p_message);
+                m_p_listener->onTrade(m_p_Trade);
                 break;
             }
             case MESSAGE_TYPE_ORDER_REMOVE: {
