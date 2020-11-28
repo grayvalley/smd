@@ -3,7 +3,7 @@
 namespace GVT::SMD {
     std::map<std::string, SMD::MESSAGE_TYPE> smd_enum_map = {
             {"A", SMD::MESSAGE_TYPE_ORDER_ADD},
-            {"E", SMD::MESSAGE_TYPE_ORDER_EXECUTED},
+            {"E", SMD::MESSAGE_TYPE_TRADE},
             {"R", SMD::MESSAGE_TYPE_ORDER_REMOVE},
             {"M", SMD::MESSAGE_TYPE_ORDER_MODIFY}
 
@@ -71,7 +71,7 @@ namespace GVT::SMD {
 }
 
 namespace GVT::SMD {
-    void OrderExecuted::get(Message* message) {
+    void Trade::get(Message* message) {
         OrderId  = message->get<int>("order-id");
         Price    = message->get<int>("price");
         Quantity = message->get<int>("quantity");
@@ -107,8 +107,8 @@ namespace GVT::SMD {
 }
 
 namespace GVT::SMD {
-    std::ostream &operator<<(std::ostream& s, const OrderExecuted& instance) {
-        s << " --- [OrderExecuted] ---" << std::endl;
+    std::ostream &operator<<(std::ostream& s, const Trade& instance) {
+        s << " --- [Trade] ---" << std::endl;
         s << "OrderId: " << instance.OrderId << std::endl;
         s << "Price: " << instance.Price << std::endl;
         s << "Quantity: " << instance.Quantity << std::endl;

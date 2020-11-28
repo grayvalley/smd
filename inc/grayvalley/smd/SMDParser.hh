@@ -11,7 +11,7 @@ namespace GVT {
             OrderAdd*      m_p_orderAdd      = nullptr;
             OrderModify*   m_p_orderModify   = nullptr;
             OrderRemove*   m_p_orderRemove   = nullptr;
-            OrderExecuted* m_p_orderExecuted = nullptr;
+            Trade*         m_p_Trade         = nullptr;
             SMDListener*   m_p_listener      = nullptr;
         public:
             SMDParser() = delete;
