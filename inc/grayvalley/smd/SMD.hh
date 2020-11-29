@@ -1,7 +1,7 @@
 #ifndef _SMD_HH
 #define _SMD_HH
 #include <nlohmann/json.hpp>
-#include <grayvalley/core/fragment.hh>
+#include <grayvalley/core/epolling.hh>
 #include <grayvalley/core/macros.hh>
 #include <grayvalley/core/enums.hh>
 
@@ -43,6 +43,7 @@ namespace GVT::SMD {
 
 namespace GVT::SMD {
     class OrderAdd: public InboundMessage {
+    public:
         int OrderId;
         int Price;
         int Quantity;
@@ -58,6 +59,7 @@ namespace GVT::SMD {
 
 namespace GVT::SMD {
     class OrderModify: public InboundMessage {
+    public:
         int OrderId;
         int Price;
         int Quantity;
@@ -73,6 +75,7 @@ namespace GVT::SMD {
 
 namespace GVT::SMD {
     class OrderRemove: public InboundMessage {
+    public:
         int OrderId;
     public:
         OrderRemove() = default;
