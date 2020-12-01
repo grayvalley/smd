@@ -4,7 +4,7 @@ namespace GVT::SMD {
     std::map<std::string, SMD::MESSAGE_TYPE> smd_enum_map = {
             {"A", SMD::MESSAGE_TYPE_ORDER_ADD},
             {"E", SMD::MESSAGE_TYPE_TRADE},
-            {"R", SMD::MESSAGE_TYPE_ORDER_REMOVE},
+            {"X", SMD::MESSAGE_TYPE_ORDER_REMOVE},
             {"M", SMD::MESSAGE_TYPE_ORDER_MODIFY}
 
     };
