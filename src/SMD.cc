@@ -51,6 +51,7 @@ namespace GVT::SMD {
         Quantity = message->get<int>("quantity");
         std::string side = message->get<std::string>("side");
         Side = map_side_char_enum.find(side)->second;
+        Snapshot = message->get<int>("snapshot");
     }
 }
 

@@ -48,6 +48,7 @@ namespace GVT::SMD {
         int Price;
         int Quantity;
         SIDE Side;
+        int Snapshot;
     public:
         OrderAdd() = default;
         PREVENT_COPY(OrderAdd);
