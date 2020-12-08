@@ -1,4 +1,5 @@
 #include <grayvalley/smd/SMD.hh>
+#include <grayvalley/core/events.hh>
 
 namespace GVT::SMD {
     std::map<std::string, SMD::MESSAGE_TYPE> smd_enum_map = {
@@ -17,26 +18,42 @@ namespace GVT::SMD {
     };
 }
 
-namespace GVT::SMD {
-    SMD::MESSAGE_TYPE Message::messageType() {
-        if(m_body.empty()){
-            return MESSAGE_TYPE_EMPTY;
-        }
-        try{
-            auto value = m_body["message-type"].get<std::string>();
-            return smd_enum_map.find(value)->second;
-        } catch (nlohmann::json::exception& e){
-            return MESSAGE_TYPE_INVALID;
-        }
-    }
-}
-
+/**
+ * Populates the body of the message from a buffer
+ *
+ * @param buffer: pointer to the beginning of a buffer
+ * @param len: length of the message
+ */
 namespace GVT::SMD {
     void Message::from(char* buffer, size_t len) {
         m_body = nlohmann::json::parse(buffer, buffer + len);
     }
 }
 
+/**
+ * Return type id of the message
+ *
+ * @return: integer id
+ */
+namespace GVT::SMD {
+    int Message::type() const {
+
+        if(m_body.empty()){
+            return MESSAGE_TYPE_EMPTY;
+        }
+
+        try {
+            auto value = m_body["message-type"].get<std::string>();
+            return smd_enum_map.find(value)->second;
+        } catch (nlohmann::json::exception& e) {
+            return MESSAGE_TYPE_INVALID;
+        }
+    }
+}
+
+/**
+ * Return an item from the message body
+ */
 namespace GVT::SMD {
     template <typename T>
     T Message::get(std::string key) {
@@ -44,43 +61,108 @@ namespace GVT::SMD {
     }
 }
 
+/**
+ * Populate SMD::OrderAddMessage from SMD::Message
+ */
 namespace GVT::SMD {
-    void OrderAdd::get(Message* message) {
-        OrderId  = message->get<int>("order-id");
-        Price    = message->get<int>("price");
-        Quantity = message->get<int>("quantity");
-        std::string side = message->get<std::string>("side");
+    void OrderAddMessage::get(IMessage* p_imessage) {
+
+        auto* p_message = reinterpret_cast<GVT::SMD::Message*>(p_imessage);
+
+        Instrument = p_message->get<int>("instrument");
+
+        OrderId  = p_message->get<int>("order-id");
+
+        Price = p_message->get<int>("price");
+
+        Quantity = p_message->get<int>("quantity");
+
+        auto side = p_message->get<std::string>("side");
         Side = map_side_char_enum.find(side)->second;
-        Snapshot = message->get<int>("snapshot");
+
+        Snapshot = p_message->get<int>("snapshot");
     }
 }
 
+/**
+ * Create OrderBookEvent from SMD::OrderAddMessage
+ */
 namespace GVT::SMD {
-    void OrderModify::get(Message* message) {
-        OrderId  = message->get<int>("order-id");
-        Price    = message->get<int>("price");
-        Quantity = message->get<int>("quantity");
-        std::string side = message->get<std::string>("side");
+    void OrderAddMessage::put(IOrderBookEvent *p_event) {
+
+        p_event->type = IOrderBookEvent::EVENT_TYPE::ADD;
+
+        p_event->order_id = OrderId;
+    }
+}
+
+/**
+ * Populate SMD::OrderAddMessage from SMD::Message
+ */
+namespace GVT::SMD {
+    void OrderModifyMessage::get(IMessage* p_imessage) {
+
+        auto* p_message = reinterpret_cast<GVT::SMD::Message*>(p_imessage);
+
+        Instrument = p_message->get<int>("instrument");
+
+        OrderId  = p_message->get<int>("order-id");
+
+        Price = p_message->get<int>("price");
+
+        Quantity = p_message->get<int>("quantity");
+
+        auto side = p_message->get<std::string>("side");
         Side = map_side_char_enum.find(side)->second;
     }
 }
 
 namespace GVT::SMD {
-    void OrderRemove::get(Message* message) {
-        OrderId  = message->get<int>("order-id");
+    void OrderModifyMessage::put(IOrderBookEvent *p_event) {
+
+        p_event->type = IOrderBookEvent::EVENT_TYPE::MODIFY;
+
+        p_event->order_id = OrderId;
     }
 }
 
 namespace GVT::SMD {
-    void Trade::get(Message* message) {
-        OrderId  = message->get<int>("order-id");
-        Price    = message->get<int>("price");
-        Quantity = message->get<int>("quantity");
+    void OrderRemoveMessage::get(IMessage* p_imessage) {
+
+        auto* p_message = reinterpret_cast<GVT::SMD::Message*>(p_imessage);
+
+        Instrument = p_message->get<int>("instrument");
+
+        OrderId = p_message->get<int>("order-id");
     }
 }
 
 namespace GVT::SMD {
-    std::ostream &operator<<(std::ostream& s, const OrderAdd& instance) {
+    void OrderRemoveMessage::put(IOrderBookEvent *p_event) {
+
+        p_event->type = IOrderBookEvent::EVENT_TYPE::REMOVE;
+
+        p_event->order_id = OrderId;
+    }
+}
+
+namespace GVT::SMD {
+    void TradeMessage::get(IMessage* p_imessage) {
+
+        auto* p_message = reinterpret_cast<GVT::SMD::Message*>(p_imessage);
+
+        Instrument = p_message->get<int>("instrument");
+
+        OrderId = p_message->get<int>("order-id");
+
+        Price = p_message->get<int>("price");
+
+        Quantity = p_message->get<int>("quantity");
+    }
+}
+
+namespace GVT::SMD {
+    std::ostream &operator<<(std::ostream& s, const OrderAddMessage& instance) {
         s << " --- [OrderAdd] ---" << std::endl;
         s << "OrderId: " << instance.OrderId << std::endl;
         s << "Price: " << instance.Price << std::endl;
@@ -90,7 +172,7 @@ namespace GVT::SMD {
 }
 
 namespace GVT::SMD {
-    std::ostream &operator<<(std::ostream& s, const OrderModify& instance) {
+    std::ostream &operator<<(std::ostream& s, const OrderModifyMessage& instance) {
         s << " --- [OrderModify] ---" << std::endl;
         s << "OrderId: " << instance.OrderId << std::endl;
         s << "Price: " << instance.Price << std::endl;
@@ -100,7 +182,7 @@ namespace GVT::SMD {
 }
 
 namespace GVT::SMD {
-    std::ostream &operator<<(std::ostream& s, const OrderRemove& instance) {
+    std::ostream &operator<<(std::ostream& s, const OrderRemoveMessage& instance) {
         s << " --- [OrderRemove] ---" << std::endl;
         s << "OrderId: " << instance.OrderId << std::endl;
         return s;
@@ -108,7 +190,7 @@ namespace GVT::SMD {
 }
 
 namespace GVT::SMD {
-    std::ostream &operator<<(std::ostream& s, const Trade& instance) {
+    std::ostream &operator<<(std::ostream& s, const TradeMessage& instance) {
         s << " --- [Trade] ---" << std::endl;
         s << "OrderId: " << instance.OrderId << std::endl;
         s << "Price: " << instance.Price << std::endl;
