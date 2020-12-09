@@ -1,18 +1,18 @@
 #include <iostream>
 #include <grayvalley/smd/SMDParser.hh>
 
-namespace GVT::SMD {
-    SMDParser::SMDParser(SMD::SMDListener* p_listener) {
+namespace GVT {
+    SMDParser::SMDParser(SMDListener* p_listener) {
         m_p_listener      = p_listener;
-        m_p_message       = new Message();
-        m_p_orderAdd      = new OrderAdd();
-        m_p_orderRemove   = new OrderRemove();
-        m_p_orderModify   = new OrderModify();
-        m_p_Trade         = new Trade();
+        m_p_message       = new SMD::Message();
+        m_p_orderAdd      = new SMD::OrderAddMessage();
+        m_p_orderRemove   = new SMD::OrderRemoveMessage();
+        m_p_orderModify   = new SMD::OrderModifyMessage();
+        m_p_Trade         = new SMD::TradeMessage();
     }
 }
 
-namespace GVT::SMD {
+namespace GVT {
     SMDParser::~SMDParser() {
         delete m_p_orderAdd;
         delete m_p_orderRemove;
@@ -22,36 +22,36 @@ namespace GVT::SMD {
     }
 }
 
-namespace GVT::SMD {
+namespace GVT {
     void SMDParser::parse(char* buffer, size_t len) {
         m_p_message->from(buffer, len);
-        int type = m_p_message->messageType();
+        int type = m_p_message->type();
         switch (type)
         {
-            case MESSAGE_TYPE_EMPTY: {
+            case SMD::MESSAGE_TYPE_EMPTY: {
                 return;
             }
-            case MESSAGE_TYPE_INVALID: {
+            case SMD::MESSAGE_TYPE_INVALID: {
                 return;
             }
-            case MESSAGE_TYPE_ORDER_ADD: {
+            case SMD::MESSAGE_TYPE_ORDER_ADD: {
                 m_p_orderAdd->get(m_p_message);
-                m_p_listener->onOrderAdd(m_p_orderAdd);
+                m_p_listener->on_order_add_message(m_p_orderAdd);
                 break;
             }
-            case MESSAGE_TYPE_TRADE: {
+            case SMD::MESSAGE_TYPE_TRADE: {
                 m_p_Trade->get(m_p_message);
-                m_p_listener->onTrade(m_p_Trade);
+                m_p_listener->on_trade_message(m_p_Trade);
                 break;
             }
-            case MESSAGE_TYPE_ORDER_REMOVE: {
+            case SMD::MESSAGE_TYPE_ORDER_REMOVE: {
                 m_p_orderRemove->get(m_p_message);
-                m_p_listener->onOrderRemove(m_p_orderRemove);
+                m_p_listener->on_order_remove_message(m_p_orderRemove);
                 break;
             }
-            case MESSAGE_TYPE_ORDER_MODIFY: {
+            case SMD::MESSAGE_TYPE_ORDER_MODIFY: {
                 m_p_orderModify->get(m_p_message);
-                m_p_listener->onOrderModify(m_p_orderModify);
+                m_p_listener->on_order_modify_message(m_p_orderModify);
                 break;
             }
         }

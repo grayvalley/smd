@@ -1,22 +1,52 @@
-#ifndef _SMDLISTENER_HH
-#define _SMDLISTENER_HH
+#ifndef GVT_SMDLISTENER_HH
+#define GVT_SMDLISTENER_HH
+
 #include <grayvalley/smd/SMD.hh>
+
 namespace GVT {
-    namespace SMD {
-        class SMDListener
-        {
-        public:
-            SMDListener(SMDListener& other) = delete;
-            SMDListener& operator=(SMDListener& other) = delete;
-        public:
-            SMDListener() = default;
-            virtual ~SMDListener()= default;
-        public:
-            virtual void onOrderAdd(OrderAdd* p_message) = 0;
-            virtual void onOrderRemove(OrderRemove* p_message) = 0;
-            virtual void onOrderModify(OrderModify* p_message) = 0;
-            virtual void onTrade(Trade* p_message) = 0;
-        };
-    }
+
+    class SMDListener {
+
+    public:
+
+        SMDListener() = default;
+
+        virtual ~SMDListener()= default;
+
+        SMDListener(SMDListener& other) = delete;
+
+        SMDListener& operator=(SMDListener& other) = delete;
+
+    public:
+
+        /**
+         * Invoked when SMD::OrderAddMessage is received
+         *
+         * @param p_message: pointer to SMD::OrderAddMessage
+         */
+        virtual void on_order_add_message(SMD::OrderAddMessage* p_message) = 0;
+
+        /**
+         * Invoked when SMD::OrderRemoveMessage is received
+         *
+         * @param p_message: pointer to SMD::OrderRemoveMessage
+         */
+        virtual void on_order_remove_message(SMD::OrderRemoveMessage* p_message) = 0;
+
+        /**
+         * Invoked when SMD::OrderModifyMessage is received
+         *
+         * @param p_message: pointer to SMD::OrderModifyMessage
+         */
+        virtual void on_order_modify_message(SMD::OrderModifyMessage* p_message) = 0;
+
+        /**
+         * Invoked when SMD::TradeMessage is received
+         *
+         * @param p_message: pointer to SMD::TradeMessage
+         */
+        virtual void on_trade_message(SMD::TradeMessage* p_message) = 0;
+
+    };
 }
-#endif //_SMDLISTENER_HH
+#endif //GVT_SMDLISTENER_HH

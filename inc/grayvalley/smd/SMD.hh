@@ -4,6 +4,8 @@
 #include <grayvalley/core/epolling.hh>
 #include <grayvalley/core/macros.hh>
 #include <grayvalley/core/enums.hh>
+#include <grayvalley/core/events.hh>
+#include <grayvalley/core/messages.hh>
 
 namespace GVT::SMD {
     enum MESSAGE_TYPE: int {
@@ -16,87 +18,151 @@ namespace GVT::SMD {
     };
 }
 
+
 namespace GVT::SMD {
-    class Message {
-    protected:
-        nlohmann::json m_body;
+
+    class Message: public IMessage {
+
     public:
+
         Message() = default;
+
         PREVENT_COPY(Message);
+
     public:
-        void from(char* buffer, size_t len);
-        MESSAGE_TYPE messageType();
+
+        /**
+         * Populates the body of the message from a buffer
+         *
+         * @param buffer: pointer to the beginning of a buffer
+         * @param len: length of the message
+         */
+        void from(char* buffer, size_t len) override;
+
+        /**
+         * Return type id of the message
+         *
+         * @return: integer id
+         */
+        [[nodiscard]] int type() const override;
+
+    public:
+
         template<typename T>
         T get(std::string key);
+
+    protected:
+
+        nlohmann::json m_body;
+
+    };
+}
+
+
+namespace GVT::SMD {
+
+    class OrderAddMessage: public GVT::IOrderAddMessage, public IInboundMessage {
+
+    public:
+
+        uint64_t Snapshot{};
+
+    public:
+
+        OrderAddMessage() = default;
+
+        PREVENT_COPY(OrderAddMessage);
+
+    public:
+
+        /**
+         * Get an OrderAdd message from a generic IMessage
+         *
+         * @param message: pointer to existing IMessage
+         */
+        void get(IMessage* p_imessage) override;
+
+        /**
+         * Create an OrderBookEvent from this OrderAddMessage
+         *
+         * @param p_event: pointer to an existing IOrderBookEvent
+         */
+        void put(IOrderBookEvent* p_event) override;
+
+        friend std::ostream &operator<<(std::ostream& s, const OrderAddMessage& instance);
     };
 }
 
 namespace GVT::SMD {
-    class InboundMessage {
+
+    class OrderModifyMessage: public IOrderModifyMessage, public IInboundMessage {
+
     public:
-        InboundMessage() = default;
-        PREVENT_COPY(InboundMessage);
+
+        OrderModifyMessage() = default;
+
+        PREVENT_COPY(OrderModifyMessage);
+
     public:
-        virtual void get(Message* message) = 0;
+
+        /**
+         *
+         * @param message
+         */
+        void get(IMessage* message) override;
+
+        /**
+         *
+         * @param p_event
+         */
+        void put(IOrderBookEvent* p_event) override;
+
+        friend std::ostream &operator<<(std::ostream& s, const OrderModifyMessage& instance);
     };
 }
 
 namespace GVT::SMD {
-    class OrderAdd: public InboundMessage {
+
+    class OrderRemoveMessage: public IOrderRemoveMessage, public IInboundMessage {
+
     public:
-        int OrderId;
-        int Price;
-        int Quantity;
-        SIDE Side;
+
+        OrderRemoveMessage() = default;
+
+        PREVENT_COPY(OrderRemoveMessage);
+
     public:
-        OrderAdd() = default;
-        PREVENT_COPY(OrderAdd);
-    public:
-        void get(Message* message) override;
-        friend std::ostream &operator<<(std::ostream& s, const OrderAdd& instance);
+
+        /**
+         *
+         * @param message
+         */
+        void get(IMessage* message) override;
+
+        /**
+         *
+         * @param p_event
+         */
+        void put(IOrderBookEvent* p_event) override;
+
+        friend std::ostream &operator<<(std::ostream& s, const OrderRemoveMessage& instance);
     };
+
 }
 
 namespace GVT::SMD {
-    class OrderModify: public InboundMessage {
+    class TradeMessage: public IInboundMessage {
     public:
-        int OrderId;
-        int Price;
-        int Quantity;
-        SIDE Side;
+        uint64_t Instrument{};
+        uint64_t OrderId{};
+        uint64_t Price{};
+        uint64_t Quantity{};
     public:
-        OrderModify() = default;
-        PREVENT_COPY(OrderModify);
+        TradeMessage() = default;
+        PREVENT_COPY(TradeMessage);
     public:
-        void get(Message* message) override;
-        friend std::ostream &operator<<(std::ostream& s, const OrderModify& instance);
-    };
-}
-
-namespace GVT::SMD {
-    class OrderRemove: public InboundMessage {
-    public:
-        int OrderId;
-    public:
-        OrderRemove() = default;
-        PREVENT_COPY(OrderRemove);
-    public:
-        void get(Message* message) override;
-        friend std::ostream &operator<<(std::ostream& s, const OrderRemove& instance);
-    };
-}
-
-namespace GVT::SMD {
-    class Trade: public InboundMessage {
-        int OrderId;
-        int Price;
-        int Quantity;
-    public:
-        Trade() = default;
-        PREVENT_COPY(Trade);
-    public:
-        void get(Message* message) override;
-        friend std::ostream &operator<<(std::ostream& s, const Trade& instance);
+        void get(IMessage* message) override;
+        friend std::ostream &operator<<(std::ostream& s, const TradeMessage& instance);
     };
 }
 #endif //SMD_HH
