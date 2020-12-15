@@ -46,10 +46,21 @@ namespace GVT::SMD {
          */
         [[nodiscard]] int type() const override;
 
-    public:
-
+        /**
+         * Get value from a key
+         *
+         * @tparam T: desired output type
+         * @param key: string key
+         *
+         * @return: value
+         */
         template<typename T>
         T get(std::string key);
+
+        /**
+         * Print the message
+         */
+        void dump();
 
     protected:
 

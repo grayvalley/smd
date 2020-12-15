@@ -1,7 +1,9 @@
-#ifndef SMDCLIENT_HH
-#define SMDCLIENT_HH
+#ifndef GVT_SMD_CLIENT_HH
+#define GVT_SMD_CLIENT_HH
 #include <string>
 #include <functional>
+#include <vector>
+#include <algorithm>
 #include <grayvalley/core/epolling.hh>
 #include <grayvalley/smd/SMD.hh>
 #include <grayvalley/smd/SMDParser.hh>
@@ -9,6 +11,47 @@
 
 namespace RFC6455{
     class Frame;
+}
+
+namespace GVT {
+    class Subscription {
+    public:
+        Subscription() = default;
+        PREVENT_COPY(Subscription);
+    public:
+
+        /**
+         * Add subscription item to subscription
+         *
+         * @param item: item representing <DataItem>:<Istrument>
+         */
+        void add_item(const std::string& item){
+            if (item_exists(item)){
+                return;
+            }
+            items.push_back(item);
+        }
+
+    private:
+        /**
+         * Return true if data item exists in the current subscription
+         * @param item
+         * @return
+         */
+        bool item_exists(const std::string& item){
+            if (std::find(items.begin(), items.begin(), item) != items.end()){
+                return true;
+            }
+            return false;
+        }
+
+    public:
+
+        /**
+         * Vector containing subscribed data items
+         */
+        std::vector<std::string> items;
+    };
 }
 
 namespace GVT::SMD {
@@ -31,6 +74,7 @@ namespace GVT::SMD {
     public:
         void connect(const RFC6455::Session& session);
         void open();
+        void subscribe(const Subscription& subscription);
     };
 }
-#endif //SMDCLIENT_HH
+#endif //GVT_SMD_CLIENT_HH
