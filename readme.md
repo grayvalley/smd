@@ -3,6 +3,11 @@ SMD is a simplified protocol that allows trading applications to subscribe and r
 ## Outbound Messages
 Outbound messages are sent to the exchange.
 
+#### Subscribe Market Data
+The exchange allows subscribing to real-time data. To subscribe to topics, send a message with the following format:
+
+`{"op": "subscribe", "args": [<SubscriptionTopic>]}`
+
 ## Inbound Messages
 Inbound messages are received from the exchange.
 

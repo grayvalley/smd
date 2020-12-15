@@ -61,6 +61,12 @@ namespace GVT::SMD {
     }
 }
 
+namespace GVT::SMD {
+    void Message::dump(){
+        std::cout << m_body.dump() << std::endl;
+    }
+}
+
 /**
  * Populate SMD::OrderAddMessage from SMD::Message
  */
@@ -69,7 +75,10 @@ namespace GVT::SMD {
 
         auto* p_message = reinterpret_cast<GVT::SMD::Message*>(p_imessage);
 
-        Instrument = p_message->get<int>("instrument");
+        p_message->dump();
+
+        // TODO: fix this property in sandboxd
+        Instrument = 0;
 
         OrderId  = p_message->get<int>("order-id");
 
