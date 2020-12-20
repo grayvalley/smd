@@ -72,23 +72,14 @@ namespace GVT::SMD {
  */
 namespace GVT::SMD {
     void OrderAddMessage::get(IMessage* p_imessage) {
-
         auto* p_message = reinterpret_cast<GVT::SMD::Message*>(p_imessage);
-
-        p_message->dump();
-
-        // TODO: fix this property in sandboxd
-        Instrument = 0;
-
+        Exchange = 0;
+        Instrument =  p_message->get<int>("instrument");
         OrderId  = p_message->get<int>("order-id");
-
         Price = p_message->get<int>("price");
-
         Quantity = p_message->get<int>("quantity");
-
         auto side = p_message->get<std::string>("side");
         Side = map_side_char_enum.find(side)->second;
-
         Snapshot = p_message->get<int>("snapshot");
     }
 }
@@ -98,9 +89,7 @@ namespace GVT::SMD {
  */
 namespace GVT::SMD {
     void OrderAddMessage::put(IOrderBookEvent *p_event) {
-
         p_event->type = IOrderBookEvent::EVENT_TYPE::ADD;
-
         p_event->order_id = OrderId;
     }
 }
@@ -110,17 +99,12 @@ namespace GVT::SMD {
  */
 namespace GVT::SMD {
     void OrderModifyMessage::get(IMessage* p_imessage) {
-
         auto* p_message = reinterpret_cast<GVT::SMD::Message*>(p_imessage);
-
+        Exchange = 0;
         Instrument = p_message->get<int>("instrument");
-
         OrderId  = p_message->get<int>("order-id");
-
         Price = p_message->get<int>("price");
-
         Quantity = p_message->get<int>("quantity");
-
         auto side = p_message->get<std::string>("side");
         Side = map_side_char_enum.find(side)->second;
     }
@@ -128,45 +112,46 @@ namespace GVT::SMD {
 
 namespace GVT::SMD {
     void OrderModifyMessage::put(IOrderBookEvent *p_event) {
-
         p_event->type = IOrderBookEvent::EVENT_TYPE::MODIFY;
-
         p_event->order_id = OrderId;
     }
 }
 
 namespace GVT::SMD {
     void OrderRemoveMessage::get(IMessage* p_imessage) {
-
         auto* p_message = reinterpret_cast<GVT::SMD::Message*>(p_imessage);
-
+        Exchange = 0;
         Instrument = p_message->get<int>("instrument");
-
         OrderId = p_message->get<int>("order-id");
     }
 }
 
 namespace GVT::SMD {
     void OrderRemoveMessage::put(IOrderBookEvent *p_event) {
-
         p_event->type = IOrderBookEvent::EVENT_TYPE::REMOVE;
-
         p_event->order_id = OrderId;
     }
 }
 
 namespace GVT::SMD {
     void TradeMessage::get(IMessage* p_imessage) {
-
         auto* p_message = reinterpret_cast<GVT::SMD::Message*>(p_imessage);
-
+        Exchange = 0;
         Instrument = p_message->get<int>("instrument");
-
         OrderId = p_message->get<int>("order-id");
-
         Price = p_message->get<int>("price");
-
         Quantity = p_message->get<int>("quantity");
+    }
+}
+
+namespace GVT::SMD {
+    void TradeMessage::put(ITradeEvent* p_event){
+        p_event->Exchange = 0;
+        p_event->Instrument = Instrument;
+        p_event->OrderId = OrderId;
+        p_event->Price = Price;
+        p_event->Quantity = Quantity;
+        p_event->Side = Side;
     }
 }
 

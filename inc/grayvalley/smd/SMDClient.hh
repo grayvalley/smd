@@ -39,7 +39,7 @@ namespace GVT {
          * @return
          */
         bool item_exists(const std::string& item){
-            if (std::find(items.begin(), items.begin(), item) != items.end()){
+            if (std::find(items.begin(), items.end(), item) != items.end()){
                 return true;
             }
             return false;
