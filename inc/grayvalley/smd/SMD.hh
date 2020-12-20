@@ -72,107 +72,52 @@ namespace GVT::SMD {
 
 namespace GVT::SMD {
 
-    class OrderAddMessage: public GVT::IOrderAddMessage, public IInboundMessage {
-
+    class OrderAddMessage: public IOrderAddMessage, public IInboundMessage {
     public:
-
-        uint64_t Snapshot{};
-
+        uint64_t Snapshot = false;
     public:
-
         OrderAddMessage() = default;
-
         PREVENT_COPY(OrderAddMessage);
-
     public:
-
-        /**
-         * Get an OrderAdd message from a generic IMessage
-         *
-         * @param message: pointer to existing IMessage
-         */
         void get(IMessage* p_imessage) override;
-
-        /**
-         * Create an OrderBookEvent from this OrderAddMessage
-         *
-         * @param p_event: pointer to an existing IOrderBookEvent
-         */
         void put(IOrderBookEvent* p_event) override;
-
         friend std::ostream &operator<<(std::ostream& s, const OrderAddMessage& instance);
     };
 }
 
 namespace GVT::SMD {
-
     class OrderModifyMessage: public IOrderModifyMessage, public IInboundMessage {
-
     public:
-
         OrderModifyMessage() = default;
-
         PREVENT_COPY(OrderModifyMessage);
-
     public:
-
-        /**
-         *
-         * @param message
-         */
         void get(IMessage* message) override;
-
-        /**
-         *
-         * @param p_event
-         */
         void put(IOrderBookEvent* p_event) override;
-
         friend std::ostream &operator<<(std::ostream& s, const OrderModifyMessage& instance);
     };
 }
 
 namespace GVT::SMD {
-
     class OrderRemoveMessage: public IOrderRemoveMessage, public IInboundMessage {
-
     public:
-
         OrderRemoveMessage() = default;
-
         PREVENT_COPY(OrderRemoveMessage);
-
     public:
-
-        /**
-         *
-         * @param message
-         */
         void get(IMessage* message) override;
-
-        /**
-         *
-         * @param p_event
-         */
         void put(IOrderBookEvent* p_event) override;
 
         friend std::ostream &operator<<(std::ostream& s, const OrderRemoveMessage& instance);
     };
-
 }
 
 namespace GVT::SMD {
-    class TradeMessage: public IInboundMessage {
-    public:
-        uint64_t Instrument{};
-        uint64_t OrderId{};
-        uint64_t Price{};
-        uint64_t Quantity{};
+    class TradeMessage: public ITradeMessage, public IInboundMessage {
     public:
         TradeMessage() = default;
         PREVENT_COPY(TradeMessage);
     public:
         void get(IMessage* message) override;
+        void put(ITradeEvent* p_event) override;
         friend std::ostream &operator<<(std::ostream& s, const TradeMessage& instance);
     };
 }
