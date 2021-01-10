@@ -10,7 +10,7 @@ set(HEADER_FILES
         inc/grayvalley/smd/SMDClient.hh
         inc/grayvalley/smd/SMDListener.hh
         inc/grayvalley/smd/SMDParser.hh
-
+        inc/grayvalley/smd/SMDSubscription.hh
         )
 
 set(SOURCE_FILES
