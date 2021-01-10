@@ -4,7 +4,7 @@
 #include <functional>
 #include <vector>
 #include <algorithm>
-#include <grayvalley/core/epolling.hh>
+#include <grayvalley/core/Engine.hh>
 #include <grayvalley/smd/SMD.hh>
 #include <grayvalley/smd/SMDParser.hh>
 #include <grayvalley/core/RFC6455.hh>
