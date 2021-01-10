@@ -3,12 +3,12 @@
 
 namespace GVT {
     SMDParser::SMDParser(SMDListener* p_listener) {
-        m_p_listener      = p_listener;
-        m_p_message       = new SMD::Message();
-        m_p_orderAdd      = new SMD::OrderAddMessage();
-        m_p_orderRemove   = new SMD::OrderRemoveMessage();
-        m_p_orderModify   = new SMD::OrderModifyMessage();
-        m_p_Trade         = new SMD::TradeMessage();
+        m_p_listener = p_listener;
+        m_p_message = new SMD::Message();
+        m_p_orderAdd = new SMD::OrderAddMessage();
+        m_p_orderRemove = new SMD::OrderRemoveMessage();
+        m_p_orderModify = new SMD::OrderModifyMessage();
+        m_p_Trade = new SMD::TradeMessage();
     }
 }
 
@@ -53,6 +53,9 @@ namespace GVT {
                 m_p_orderModify->get(m_p_message);
                 m_p_listener->on_order_modify_message(m_p_orderModify);
                 break;
+            }
+            default:{
+                throw std::runtime_error("Message type invalid.");
             }
         }
     }

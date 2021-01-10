@@ -1,11 +1,11 @@
 #ifndef _SMD_HH
 #define _SMD_HH
 #include <nlohmann/json.hpp>
-#include <grayvalley/core/epolling.hh>
+#include <grayvalley/core/Engine.hh>
 #include <grayvalley/core/macros.hh>
 #include <grayvalley/core/enums.hh>
-#include <grayvalley/core/events.hh>
-#include <grayvalley/core/messages.hh>
+#include <grayvalley/core/Events.hh>
+#include <grayvalley/core/Messages.hh>
 
 namespace GVT::SMD {
     enum MESSAGE_TYPE: int {

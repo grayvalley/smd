@@ -1,7 +1,12 @@
-#ifndef _SMDPARSER_HH
-#define _SMDPARSER_HH
+#ifndef GVT_SMD_PARSER_HH
+#define GVT_SMD_PARSER_HH
+
+#include <grayvalley/core/IParser.hh>
+#include <grayvalley/core/Instrument.hh>
+
 #include <grayvalley/smd/SMD.hh>
 #include <grayvalley/smd/SMDListener.hh>
+
 namespace GVT {
     class SMDParser
     {
@@ -18,7 +23,7 @@ namespace GVT {
         SMD::TradeMessage* m_p_Trade = nullptr;
 
         SMDListener* m_p_listener = nullptr;
-
+        
     public:
 
         SMDParser() = delete;
@@ -36,5 +41,5 @@ namespace GVT {
         void parse(char* buffer, size_t len);
     };
 }
-#endif //_SMDPARSER_HH
+#endif //GVT_SMD_PARSER_HH
 

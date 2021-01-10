@@ -1,5 +1,5 @@
 #include <grayvalley/smd/SMD.hh>
-#include <grayvalley/core/events.hh>
+#include <grayvalley/core/Events.hh>
 
 namespace GVT::SMD {
     std::map<std::string, SMD::MESSAGE_TYPE> smd_enum_map = {
@@ -43,8 +43,11 @@ namespace GVT::SMD {
         }
 
         try {
-            auto value = m_body["message-type"].get<std::string>();
-            return smd_enum_map.find(value)->second;
+            auto type_char = m_body["message-type"].get<std::string>();
+            if(smd_enum_map.find(type_char) == smd_enum_map.end()){
+                throw std::runtime_error("Message type not understood!");
+            }
+            return smd_enum_map[type_char];
         } catch (nlohmann::json::exception& e) {
             return MESSAGE_TYPE_INVALID;
         }
@@ -73,7 +76,7 @@ namespace GVT::SMD {
 namespace GVT::SMD {
     void OrderAddMessage::get(IMessage* p_imessage) {
         auto* p_message = reinterpret_cast<GVT::SMD::Message*>(p_imessage);
-        Exchange = 0;
+        Exchange = "sandbox";
         Instrument =  p_message->get<int>("instrument");
         OrderId  = p_message->get<int>("order-id");
         Price = p_message->get<int>("price");
@@ -100,7 +103,7 @@ namespace GVT::SMD {
 namespace GVT::SMD {
     void OrderModifyMessage::get(IMessage* p_imessage) {
         auto* p_message = reinterpret_cast<GVT::SMD::Message*>(p_imessage);
-        Exchange = 0;
+        Exchange = "sandbox";
         Instrument = p_message->get<int>("instrument");
         OrderId  = p_message->get<int>("order-id");
         Price = p_message->get<int>("price");
@@ -120,7 +123,7 @@ namespace GVT::SMD {
 namespace GVT::SMD {
     void OrderRemoveMessage::get(IMessage* p_imessage) {
         auto* p_message = reinterpret_cast<GVT::SMD::Message*>(p_imessage);
-        Exchange = 0;
+        Exchange = "sandbox";
         Instrument = p_message->get<int>("instrument");
         OrderId = p_message->get<int>("order-id");
     }
@@ -136,7 +139,7 @@ namespace GVT::SMD {
 namespace GVT::SMD {
     void TradeMessage::get(IMessage* p_imessage) {
         auto* p_message = reinterpret_cast<GVT::SMD::Message*>(p_imessage);
-        Exchange = 0;
+        Exchange = "sandbox";
         Instrument = p_message->get<int>("instrument");
         OrderId = p_message->get<int>("order-id");
         Price = p_message->get<int>("price");
@@ -146,7 +149,7 @@ namespace GVT::SMD {
 
 namespace GVT::SMD {
     void TradeMessage::put(ITradeEvent* p_event){
-        p_event->Exchange = 0;
+        p_event->Exchange = "sandbox";
         p_event->Instrument = Instrument;
         p_event->OrderId = OrderId;
         p_event->Price = Price;
