@@ -21,7 +21,7 @@
 #include <grayvalley/core/Macros.hh>
 #include <grayvalley/core/ISubscription.hh>
 
-namespace GVT {
+namespace GVT::SMD {
 
     class SMDSubscription: public ISubscription {
 
@@ -32,15 +32,15 @@ namespace GVT {
          *
          * @return: subscription string.
          */
-        std::string generate_payload() override;
+        std::string generate_payload() const override;
 
 
     };
 
 }
 
-namespace GVT {
-    std::string SMDSubscription::generate_payload() {
+namespace GVT::SMD {
+    std::string SMDSubscription::generate_payload() const {
 
         if (empty()){
             throw std::runtime_error("Subscription was empty!");
