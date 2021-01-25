@@ -25,7 +25,6 @@ namespace GVT {
 namespace GVT {
     void SMDParser::parse(char* buffer, size_t len) {
         m_p_message->from(buffer, len);
-        m_p_message->dump();
         int type = m_p_message->type();
         switch (type)
         {
