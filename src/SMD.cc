@@ -77,7 +77,7 @@ namespace GVT::SMD {
     void OrderAddMessage::get(IMessage* p_imessage) {
         auto* p_message = reinterpret_cast<GVT::SMD::Message*>(p_imessage);
         Exchange = "sandbox";
-        Instrument =  p_message->get<int>("instrument");
+        Instrument = p_message->get<std::string>("instrument");
         OrderId  = p_message->get<int>("order-id");
         Price = p_message->get<int>("price");
         Quantity = p_message->get<int>("quantity");
@@ -104,7 +104,7 @@ namespace GVT::SMD {
     void OrderModifyMessage::get(IMessage* p_imessage) {
         auto* p_message = reinterpret_cast<GVT::SMD::Message*>(p_imessage);
         Exchange = "sandbox";
-        Instrument = p_message->get<int>("instrument");
+        Instrument = p_message->get<std::string>("instrument");
         OrderId  = p_message->get<int>("order-id");
         Price = p_message->get<int>("price");
         Quantity = p_message->get<int>("quantity");
@@ -124,7 +124,7 @@ namespace GVT::SMD {
     void OrderRemoveMessage::get(IMessage* p_imessage) {
         auto* p_message = reinterpret_cast<GVT::SMD::Message*>(p_imessage);
         Exchange = "sandbox";
-        Instrument = p_message->get<int>("instrument");
+        Instrument = p_message->get<std::string>("instrument");
         OrderId = p_message->get<int>("order-id");
     }
 }
@@ -140,7 +140,7 @@ namespace GVT::SMD {
     void TradeMessage::get(IMessage* p_imessage) {
         auto* p_message = reinterpret_cast<GVT::SMD::Message*>(p_imessage);
         Exchange = "sandbox";
-        Instrument = p_message->get<int>("instrument");
+        Instrument = p_message->get<std::string>("instrument");
         OrderId = p_message->get<int>("order-id");
         Price = p_message->get<int>("price");
         Quantity = p_message->get<int>("quantity");

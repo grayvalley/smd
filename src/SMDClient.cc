@@ -26,22 +26,7 @@ namespace GVT::SMD {
 
 namespace GVT::SMD {
     void SMDClient::subscribe(const ISubscription &subscription) {
-
-        auto items = subscription.items();
-        if (items.empty()){
-            throw std::runtime_error("Subscription list was empty");
-        }
-
-        nlohmann::json payload = {{"op", "subscribe"}};
-        auto args = nlohmann::json::array();
-
-        for(auto item: items){
-            args.push_back(item);
-        }
-
-        payload["args"] = args;
-        auto sub = payload.dump();
-        std::cout << payload.dump() << std::endl;
+        auto sub = subscription.generate_payload();
         send(StringView::from(sub));
     }
 }
